@@ -47,24 +47,23 @@ def generate_monthly_summary(df: pd.DataFrame) -> Dict:
     local = df.copy()
     local["issue_type"] = local["issue"].apply(classify_issue)
 
+    # By month
     # By month (minimal fix: sort chronologically based on parsed month_label)
-by_month = (
-    local.groupby("month_label")
-         .size()
-         .reset_index(name="issue_count")
-)
+    by_month = (
+        local.groupby("month_label")
+             .size()
+             .reset_index(name="issue_count")
+    )
 
-# Parse month_label like DEC2025 → datetime → correct order
-by_month["_month_dt"] = pd.to_datetime(
-    by_month["month_label"], format="%b%Y", errors="coerce"
-)
+    by_month["_month_dt"] = pd.to_datetime(
+        by_month["month_label"], format="%b%Y", errors="coerce"
+    )
 
-# Sort by real date, drop helper column
-by_month = (
-    by_month.sort_values("_month_dt")
-            .drop(columns="_month_dt")
-            .reset_index(drop=True)
-)
+    by_month = (
+        by_month.sort_values("_month_dt")
+                .drop(columns="_month_dt")
+                .reset_index(drop=True)
+    )
 
     # By status/engineer/issue_type
     out["by_status"] = status_norm.value_counts().to_dict()
