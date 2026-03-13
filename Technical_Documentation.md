@@ -60,7 +60,7 @@ This document explains the Phase‑1 modules and their responsibilities for the 
 from src.data_loader import load_monthly_tracker
 from src.aggregator import generate_monthly_summary
 
-df = load_monthly_tracker("EmblemHealth_Monthly_Productivity_Tracker.xlsx")
+df = load_monthly_tracker("Monthly_Productivity_Tracker.xlsx")
 summary = generate_monthly_summary(df)
 
 # Key outputs
